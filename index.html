@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesis de Inversión: Aveonline para TSS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony (Light Beige, Charcoal, Muted Teal, Soft Gold) -->
+    <!-- Application Structure Plan: A single-page, thematic dashboard design with a sticky nav. This structure allows a potential acquirer (TSS) to quickly grasp the core investment thesis and then dive into supporting themes (Founder, Moat, Opportunity, Future) in a non-linear way. The focus is on usability and persuasive storytelling, rather than mirroring the report's linear structure. Key interactions include a clickable timeline and expandable cards to make dense information digestible. -->
+    <!-- Visualization & Content Choices: 1. Alignment Matrix (HTML Table): Goal=Compare, Justification=Directly addresses TSS criteria. 2. Founder Timeline (Interactive HTML/JS): Goal=Narrate, Justification=Makes biography engaging. 3. Workforce Doughnut (Chart.js): Goal=Proportions, Justification=Highlights tech focus. 4. Growth Bar Chart (Chart.js): Goal=Compare, Justification=Visualizes the core value-add opportunity. All choices avoid SVG/Mermaid and focus on clarity and interactivity to support the investment thesis. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #333333;
+        }
+        .text-accent-teal { color: #4A908A; }
+        .bg-accent-teal { background-color: #4A908A; }
+        .border-accent-teal { border-color: #4A908A; }
+        .text-accent-gold { color: #C0A062; }
+        .bg-accent-gold { background-color: #C0A062; }
+        .border-accent-gold { border-color: #C0A062; }
+        .nav-link.active {
+            color: #4A908A;
+            font-weight: 600;
+            border-bottom: 2px solid #4A908A;
+        }
+        .timeline-item-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 0;
+        }
+        .timeline-item-content.active {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</div>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-accent-teal">
+                <span class="text-gray-800">Tesis de Inversión:</span> Aveonline
+            </h1>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#inicio" class="nav-link text-gray-600 hover:text-accent-teal transition-colors pb-1">Inicio</a>
+                <a href="#tesis" class="nav-link text-gray-600 hover:text-accent-teal transition-colors pb-1">La Tesis</a>
+                <a href="#fundador" class="nav-link text-gray-600 hover:text-accent-teal transition-colors pb-1">El Fundador</a>
+                <a href="#foso" class="nav-link text-gray-600 hover:text-accent-teal transition-colors pb-1">El Foso</a>
+                <a href="#oportunidad" class="nav-link text-gray-600 hover:text-accent-teal transition-colors pb-1">La Oportunidad</a>
+                <a href="#futuro" class="nav-link text-gray-600 hover:text-accent-teal transition-colors pb-1">El Futuro</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center">
+                <div
+                    class="grid grid-cols-2 gap-4 justify-center mb-8 items-center max-w-lg mx-auto"
+                >
+                    <img width="400" src="https://s3-us-west-2.amazonaws.com/cbi-image-service-prd/modified/d1aa3ff6-dd0b-440c-9e01-3224d7271561.png" alt="">
+                    <img src="https://aveonline.co/wp-content/uploads/2024/06/aveonline-logo-footer.png" alt="">
+                </div>
+                <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-6">La Plataforma Estratégica para la Conquista del <span class="text-accent-teal">Ecosistema Logístico Andino</span></h2>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600 mb-12">Adquirir Aveonline es adquirir la plataforma, el equipo y el conocimiento para anclar y acelerar la estrategia de expansión regional de TSS. Presentamos un activo de valor, no de volumen, con rentabilidad probada y un foso competitivo duradero.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-accent-teal">
+                        <p class="text-3xl font-bold text-accent-teal">> $4M</p>
+                        <p class="text-gray-600 mt-2">Ventas Anuales (Último Año)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-accent-gold">
+                        <p class="text-3xl font-bold text-accent-gold">10+ Años</p>
+                        <p class="text-gray-600 mt-2">De Experiencia en el Mercado</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-accent-teal">
+                        <p class="text-3xl font-bold text-accent-teal">85-90%</p>
+                        <p class="text-gray-600 mt-2">De Envíos con Pago Contra Entrega</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tesis" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">La Tesis de Inversión</h3>
+                    <p class="max-w-2xl mx-auto text-gray-600">Aveonline no es simplemente una buena empresa; es el tipo exacto de activo que el manual de adquisiciones de CSI/TSS está diseñado para identificar: un líder de nicho VMS, rentable y con un foso defendible.</p>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-lg shadow-inner overflow-x-auto">
+                    <h4 class="text-2xl font-semibold mb-6 text-center">Matriz de Alineación Estratégica: Aveonline vs. Criterios TSS/CSI</h4>
+                    <table class="w-full min-w-[600px] text-left">
+                        <thead>
+                            <tr class="border-b-2 border-gray-300">
+                                <th class="p-4 text-lg font-semibold text-accent-teal">Criterio de Adquisición de TSS/CSI</th>
+                                <th class="p-4 text-lg font-semibold text-gray-800">Evidencia y Fortalezas de Aveonline</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-4 font-semibold">Software Propietario de Misión Crítica</td>
+                                <td class="p-4 text-gray-700">Plataforma tecnológica robusta desarrollada internamente. Actúa como el "sistema operativo" logístico indispensable para sus clientes.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-4 font-semibold">Liderazgo en Nicho de Mercado Vertical (VMS)</td>
+                                <td class="p-4 text-gray-700">Posicionada como la compañía con más experiencia en el nicho de operadores logísticos para e-commerce en Colombia.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-4 font-semibold">Rentabilidad y Flujo de Caja Positivo</td>
+                                <td class="p-4 text-gray-700">Historial de rentabilidad comprobada, superando a competidores que fracasaron por "quemar caja".</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-4 font-semibold">Modelo de Negocio Defendible ("Foso")</td>
+                                <td class="p-4 text-gray-700">Combinación de tecnología, efecto de red (flywheel) y cultura de soporte humano que crea una lealtad superior.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Potencial de Crecimiento Desbloqueable</td>
+                                <td class="p-4 text-gray-700">Déficit reconocido en marketing y ventas representa una oportunidad clara y de bajo riesgo para la creación de valor post-adquisición.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="fundador" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">El ADN del Valor: La Visión del Fundador</h3>
+                    <p class="max-w-2xl mx-auto text-gray-600">La trayectoria de Andrés Isaza es la prueba de un liderazgo pragmático y una alineación filosófica con la inversión a largo plazo, mitigando el riesgo del "activo humano" clave.</p>
+                </div>
+
+                <div class="relative w-full max-w-4xl mx-auto">
+                    <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 hidden md:block"></div>
+                    <div id="timeline-container" class="space-y-12">
+                        <!-- Timeline items will be injected here by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="foso" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">El Foso Competitivo</h3>
+                    <p class="max-w-2xl mx-auto text-gray-600">La fortaleza de Aveonline reside en la integración de tecnología, un profundo conocimiento local y una cultura que genera flujos de caja predecibles.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-center">
+                    <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h4 class="text-xl font-semibold mb-3 text-accent-teal">Tecnología Propietaria</h4>
+                            <p class="text-gray-700">Nuestro software es el "sistema operativo" del e-commerce para nuestros clientes, un activo de misión crítica que articula todo el ecosistema logístico.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h4 class="text-xl font-semibold mb-3 text-accent-teal">Conocimiento Local</h4>
+                            <p class="text-gray-700">Dominamos complejidades como el pago contra entrega (85-90% de envíos), una barrera de entrada insuperable para competidores extranjeros.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg md:col-span-2">
+                            <h4 class="text-xl font-semibold mb-3 text-accent-teal">Cultura de "Vínculos"</h4>
+                            <p class="text-gray-700">Nuestro enfoque en relaciones a largo plazo genera una lealtad superior, que se traduce directamente en una menor tasa de abandono (churn) y flujos de caja más predecibles, un activo invaluable para un inversor a perpetuidad.</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h4 class="text-xl font-semibold mb-4">Foco en Tecnología</h4>
+                        <div class="chart-container h-64 md:h-80">
+                            <canvas id="workforceChart"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-4">Composición de la plantilla, destacando la inversión en desarrollo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="oportunidad" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">La Oportunidad Central de Valor</h3>
+                    <p class="max-w-2xl mx-auto text-gray-600">El déficit reconocido en marketing y ventas no es una debilidad, sino la oportunidad de creación de valor más clara y de menor riesgo de toda la tesis de inversión.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="text-center md:text-left">
+                        <h4 class="text-2xl font-semibold mb-4 text-accent-teal">Un Motor de Alto Rendimiento Esperando Combustible</h4>
+                        <p class="text-gray-700 mb-4">Aveonline ha priorizado la construcción de los cimientos más difíciles: un producto tecnológicamente superior, una operación a prueba de balas y un modelo de negocio con rentabilidad validada.</p>
+                        <p class="text-gray-700">El área de crecimiento más obvia y de menor riesgo —la adquisición sistemática de clientes— permanece sin explotar. Esta es la sinergia perfecta para el modelo de TSS, que aplica capital y mejores prácticas para escalar empresas estables.</p>
+                    </div>
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="growthChart"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-4 text-center">Proyección conservadora del potencial de crecimiento al aplicar el capital y la experiencia de TSS.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="futuro" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">La Plataforma para el Futuro</h3>
+                    <p class="max-w-2xl mx-auto text-gray-600">Nuestra visión a largo plazo demuestra que Aveonline es un activo dinámico con un plan claro para la creación de valor a perpetuidad, con proyectos ya en desarrollo.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-sm border-l-4 border-accent-teal">
+                        <h4 class="text-2xl font-semibold mb-3">Laboratorio</h4>
+                        <p class="text-gray-700">Un centro de I+D e inteligencia de datos en fase conceptual. Aprovechará nuestra vasta red de datos para ofrecer servicios de alto valor (simulación de mercados, análisis predictivo), transformando a Aveonline de un socio reactivo a un asesor estratégico proactivo.</p>
+                    </div>
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-sm border-l-4 border-accent-gold">
+                        <h4 class="text-2xl font-semibold mb-3">Ave Metrics</h4>
+                        <p class="text-gray-700">Un servicio en desarrollo para la medición del rendimiento de relaciones públicas. Demuestra una mentalidad de innovación continua y la voluntad de construir nuevas líneas de servicio de valor agregado, una cualidad esencial dentro del ecosistema de CSI.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-2xl font-bold mb-4">Una Invitación al Diálogo Estratégico</h3>
+            <p class="max-w-3xl mx-auto text-gray-300 mb-6">Hemos construido la plataforma para conquistar el ecosistema logístico andino. La combinación de nuestra plataforma probada con el capital y el ecosistema de TSS crearía un liderazgo regional indiscutible.</p>
+            <p class="text-gray-400">El siguiente paso no es una negociación sobre una venta, sino el comienzo de una conversación sobre la construcción conjunta del futuro.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
+
+
