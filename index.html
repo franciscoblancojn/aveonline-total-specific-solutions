@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
-<div>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tesis de Inversión: Aveonline para TSS</title>
@@ -55,7 +55,7 @@
             }
         }
     </style>
-</div>
+</head>
 <body class="antialiased">
 
     <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm transition-all duration-300">
@@ -77,10 +77,11 @@
     <main>
         <section id="inicio" class="py-20 md:py-32">
             <div class="container mx-auto px-6 text-center">
+
                 <div
                     class="grid grid-cols-2 gap-4 justify-center mb-8 items-center max-w-lg mx-auto"
                 >
-                    <img width="400" src="https://s3-us-west-2.amazonaws.com/cbi-image-service-prd/modified/d1aa3ff6-dd0b-440c-9e01-3224d7271561.png" alt="">
+                    <img src="https://s3-us-west-2.amazonaws.com/cbi-image-service-prd/modified/d1aa3ff6-dd0b-440c-9e01-3224d7271561.png" alt="">
                     <img src="https://aveonline.co/wp-content/uploads/2024/06/aveonline-logo-footer.png" alt="">
                 </div>
                 <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-6">La Plataforma Estratégica para la Conquista del <span class="text-accent-teal">Ecosistema Logístico Andino</span></h2>
@@ -245,7 +246,170 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const timelineData = [
+                {
+                    year: 'Inicios',
+                    title: 'Mentalidad de Optimización',
+                    content: 'Desde joven, Andrés demostró un impulso innato por mejorar procesos. Experiencias como una empresa de fumigación le enseñaron lecciones cruciales sobre la importancia de la gestión de recursos y la disciplina administrativa, anclando su visión en la realidad financiera.',
+                    side: 'left'
+                },
+                {
+                    year: 'Formación',
+                    title: 'Descubrimiento del Valor a Largo Plazo',
+                    content: 'La distribución de equipos odontológicos fue su experiencia más formativa. Comprendió que el verdadero valor no estaba en la venta única del equipo, sino en los ingresos recurrentes del consumible. Esta lección inculcó una profunda apreciación por los flujos de caja predecibles, el núcleo de la tesis de inversión de CSI.',
+                    side: 'right'
+                },
+                {
+                    year: 'Validación',
+                    title: 'Validación del Modelo Tecnológico',
+                    content: 'El éxito de su empresa de logística en el Reino Unido validó dos tesis centrales: el software es la herramienta más poderosa para gestionar la complejidad logística, y agregar la demanda genera un poder de negociación insuperable. Aveonline nació como una empresa de tecnología que opera en logística, no al revés.',
+                    side: 'left'
+                }
+            ];
+
+            const timelineContainer = document.getElementById('timeline-container');
+            timelineData.forEach((item, index) => {
+                const isLeft = item.side === 'left';
+                const itemHTML = `
+                    <div class="timeline-item relative flex items-center ${isLeft ? 'md:flex-row-reverse' : 'md:flex-row'}">
+                        <div class="hidden md:flex w-1/2"></div>
+                        <div class="hidden md:flex justify-center w-12">
+                            <div class="w-4 h-4 rounded-full bg-accent-teal ring-4 ring-white"></div>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <div class="bg-white p-6 rounded-lg shadow-lg cursor-pointer timeline-item-header">
+                                <p class="text-sm text-accent-gold font-semibold">${item.year}</p>
+                                <h5 class="text-lg font-bold mt-1">${item.title}</h5>
+                                <div class="timeline-item-content mt-2">
+                                    <p class="text-gray-600 text-sm">${item.content}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                timelineContainer.innerHTML += itemHTML;
+            });
+            
+            document.querySelectorAll('.timeline-item-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.querySelector('.timeline-item-content');
+                    const wasActive = content.classList.contains('active');
+                    
+                    document.querySelectorAll('.timeline-item-content.active').forEach(activeContent => {
+                        activeContent.classList.remove('active');
+                    });
+
+                    if (!wasActive) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            const workforceCtx = document.getElementById('workforceChart').getContext('2d');
+            new Chart(workforceCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Desarrollo de Software', 'Operaciones y Soporte'],
+                    datasets: [{
+                        data: [25, 75],
+                        backgroundColor: ['#4A908A', '#E0E0E0'],
+                        borderColor: '#FFFFFF',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                boxWidth: 12,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const growthCtx = document.getElementById('growthChart').getContext('2d');
+            new Chart(growthCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Crecimiento Orgánico Actual', 'Potencial con Sinergia TSS'],
+                    datasets: [{
+                        label: 'Tasa de Crecimiento Anual',
+                        data: [15, 45],
+                        backgroundColor: ['#C0A062', '#4A908A'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-
-
